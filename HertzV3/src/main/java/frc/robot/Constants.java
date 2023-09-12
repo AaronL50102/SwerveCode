@@ -13,7 +13,7 @@ public final class Constants {
     public static final double kTurningEncoderRot2Meter = kTurningMotorGearRatio * 2 * Math.PI;
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2MeterPerSec = kTurningEncoderRot2Meter / 60;
-    public static final double kPTurning = 0.5; //PID -> P Value for turning
+    //public static final double kPTurning = 0.5; //PID -> P Value for turning
   }
 
   public static final class DriveConstants{
@@ -36,12 +36,15 @@ public final class Constants {
     public static final int frontRightAbsoluteEncoder = 6;
     public static final int backLeftAbsoluteEncoder = 9;
     public static final int backRightAbsoluteEncoder = 12;
+
     public static final double physicalMaxSpeedMetersPerSecond = 10;
+    public static final double physicalMaxAngularSpeedRadiansPerSecond = 2*2*Math.PI;
+    public static final double teleDriveMaxSpeedMetersPerSecond = physicalMaxSpeedMetersPerSecond/4;
+    public static final double teleDriveMaxAngularSpeedRadiansPerSecond = physicalMaxAngularSpeedRadiansPerSecond/4;
+    public static final double teleDriveMaxAccelerationUnitsPerSecond = 3;
+    public static final double teleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
     
-  }
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
   }
   public static final class OIConstants{
     public static final int DriveControllerPort = 0;

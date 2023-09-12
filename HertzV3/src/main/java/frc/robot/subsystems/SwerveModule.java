@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
 import com.ctre.phoenix.sensors.CANCoder;
@@ -25,11 +26,11 @@ public class SwerveModule {
 
     private final CANCoder absoluteEncoder;
 
-    public SwerveModule(int driveMotorID, int turnMotorID, boolean driveMotorReversed, boolean turningMotorReversed, int absoluteEncoderID, double TurnkP, double TurnkI, double TurnkD){
+    public SwerveModule(int driveMotorID, int turnMotorID, boolean driveMotorReversed, boolean turnMotorReversed, int absoluteEncoderID, double TurnkP, double TurnkI, double TurnkD){
         driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
         driveMotor.setInverted(driveMotorReversed);
-        turnMotor.setInverted(turningMotorReversed);
+        turnMotor.setInverted(turnMotorReversed);
 
         driveEncoder = driveMotor.getEncoder();
         turnEncoder = turnMotor.getEncoder();
@@ -75,13 +76,13 @@ public class SwerveModule {
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurnPosition()));
     }
     public void setDesiredState(SwerveModuleState state){
-        if(state.speedMetersPerSecond < 0.001){
+        if(Math.abs(state.speedMetersPerSecond) < 0.001){
             driveMotor.set(0);
             turnMotor.set(0);
             return;
         }
         state = SwerveModuleState.optimize(state, getState().angle);
-        driveMotor.set(state.speedMetersPerSecond / 5);
+        driveMotor.set(state.speedMetersPerSecond / DriveConstants.physicalMaxSpeedMetersPerSecond);
         turnMotor.set(turningPidController.calculate(getTurnPosition(), state.angle.getRadians()));        
     }
 }
